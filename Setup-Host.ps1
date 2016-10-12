@@ -34,7 +34,7 @@ foreach ($net in $netcon) {
         Set-NetConnectionProfile `
             -InterfaceIndex $net.InterfaceIndex `
             -NetworkCategory Private
-        $netname = $netcon.Name
+        $netname = $net.Name
         Write-host -ForegroundColor Cyan `
             -Object "Setting Network Profile to Private for network connection $NetName"
         }
