@@ -25,6 +25,20 @@ Write-Host -ForegroundColor Green -Object @"
 
 Pause
 
+#Fix issue when network adapter is using Public profile and disables WinRM
+#Check all network connection profiles for Public and change to private
+$Netcon = Get-NetConnectionProfile -Verbose
+
+foreach ($net in $netcon) {
+    if ($net.NetworkCategory -eq 'public') {
+        Set-NetConnectionProfile `
+            -InterfaceIndex $net.InterfaceIndex `
+            -NetworkCategory Private
+        $netname = $netcon.Name
+        Write-host -ForegroundColor Cyan `
+            -Object "Setting Network Profile to Private for network connection $NetName"
+        }
+    }
 
 # For remoting commands to VM's - have the host set trustedhosts
 Enable-PSremoting -force
